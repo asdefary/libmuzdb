@@ -72,7 +72,7 @@ void MDB::update()
 				new_file(nit->first);
 				++nit;
 			} else {
-				if (nit->second == mit->second) {
+				if (nit->second != mit->second) {
 					mod_file(nit->first);
 				}
 
