@@ -45,6 +45,9 @@ void MDB::update()
 		if (!exists(p)) {
 			continue;
 		}
+		
+		if (config.extensions.find(p.extension().string()) == config.extensions.end())
+			continue;
 
 		ntimes.insert(std::make_pair(p.wstring(), last_write_time(p)));
 	}
@@ -96,6 +99,11 @@ void MDB::callback(boost::shared_ptr<MuzdbCallback> cb)
 const std::map<Path, Metadata> &MDB::get() const
 {
 	return meta;
+}
+
+MuzdbConfig &MDB::get_config()
+{
+	return config;
 }
 
 boost::shared_ptr<Muzdb> muzdb_init(const Path &p)

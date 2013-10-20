@@ -8,6 +8,8 @@
 #include <boost/filesystem.hpp>
 
 #include <map>
+#include <set>
+#include <vector>
 
 namespace muzdb {
 
@@ -21,6 +23,10 @@ public:
 	virtual void mod_file(const FileRef &prevf, const FileRef &newf) = 0;
 };
 
+struct MuzdbConfig {
+	std::set<std::string> extensions;
+};
+
 class Muzdb {
 public:
 	virtual const Path &root() const = 0;
@@ -32,6 +38,8 @@ public:
 	virtual void callback(boost::shared_ptr<MuzdbCallback> cb) = 0;
 
 	virtual const std::map<Path, Metadata> &get() const = 0;
+
+	virtual MuzdbConfig &get_config() = 0;
 };
 
 boost::shared_ptr<Muzdb> muzdb_init(const boost::filesystem::path &root);

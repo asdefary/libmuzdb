@@ -14,6 +14,8 @@ private:
 	
 	boost::shared_ptr<MuzdbCallback> cb;
 
+	MuzdbConfig config;
+
 	void new_file(const Path &path);
 	void del_file(const Path &path);
 	void mod_file(const Path &path);
@@ -30,6 +32,8 @@ public:
 	void callback(boost::shared_ptr<MuzdbCallback> cb);
 
 	const std::map<Path, Metadata> &get() const;
+
+	MuzdbConfig &get_config();
 };
 	
 } // namespace muzdb
