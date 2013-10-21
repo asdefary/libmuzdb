@@ -11,7 +11,7 @@
 
 #include <boost/filesystem.hpp>
 
-#include <boost/algorithm/string.hpp>
+#include <boost/locale.hpp>
 #include <boost/lexical_cast.hpp>
 
 #include <set>

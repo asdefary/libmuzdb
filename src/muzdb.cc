@@ -203,8 +203,7 @@ void MDB::update()
 			continue;
 		}
 
-		BOOST_AUTO(ext, p.extension().string());
-		boost::algorithm::to_lower(ext);
+		BOOST_AUTO(ext, boost::locale::to_lower(p.extension().string()));
 		
 		if (config.extensions.find(ext) == config.extensions.end())
 			continue;

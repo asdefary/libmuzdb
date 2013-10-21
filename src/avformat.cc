@@ -13,11 +13,7 @@ void avformat_get_data(AVFormatContext *ctx, MTrack &trk)
 	AVDictionaryEntry *entry(NULL);
 
 	while (entry = av_dict_get(dict, "", entry, AV_DICT_IGNORE_SUFFIX)) {
-		BOOST_AUTO(key, std::string(entry->key));
-
-		boost::algorithm::to_lower(key);
-		
-		trk.push(key, entry->value);
+		trk.push(boost::locale::to_lower(entry->key), entry->value);
 	}
 }
 
