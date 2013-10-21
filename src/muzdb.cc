@@ -19,6 +19,14 @@ using namespace boost::filesystem;
 namespace boost {
 namespace serialization {
 
+static struct MuzdbInitializer {
+	MuzdbInitializer()
+	{
+		av_register_all();
+		std::locale::global(boost::locale::generator()(""));
+	}
+} initalizer;
+
 template<class Archive>
 inline void serialize(Archive &ar, muzdb::TimeInfo &t, const unsigned int)
 {
@@ -132,9 +140,6 @@ static Metadata parse(const ParserGen &pg)
 MDB::MDB(const Path &root)
 	: root_path(root)
 {
-	av_register_all();
-
-	std::locale::global(boost::locale::generator()(""));
 }
 
 const Path &MDB::root() const
