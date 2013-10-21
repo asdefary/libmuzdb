@@ -133,6 +133,8 @@ MDB::MDB(const Path &root)
 	: root_path(root)
 {
 	av_register_all();
+
+	std::locale::global(boost::locale::generator()(""));
 }
 
 const Path &MDB::root() const
