@@ -32,7 +32,7 @@ std::string CDetect::convert(const std::string &str)
 {
 	UErrorCode err = U_ZERO_ERROR;
 
-	size_t target_len(str.length() * 10);
+	size_t target_len(str.length() * 3);
 	int32_t conv_len(0);
 	int32_t sig_len(0);
 
