@@ -2,6 +2,7 @@
 
 #include "parser.hpp"
 #include "avformat.hpp"
+#include "cue.hpp"
 
 #include "cdetect.hpp"
 
@@ -60,6 +61,16 @@ void AVParser::parse()
 	BOOST_AUTO(tg, TrackGen(trk));
 
 	meta.push_back(tg());
+
+	if (trk.fields().find("cuesheet") != trk.fields().end()) {
+		BOOST_AUTO(data, (*trk.fields().find("cuesheet")).second);
+		BOOST_AUTO(ps, CueParser(filename, data));
+
+		ps.parse();
+		BOOST_AUTO(m, ps.metadata());
+
+		meta.insert(meta.end(), m.begin(), m.end());
+	}
 
 	avformat_close_input(&ctx);
 }

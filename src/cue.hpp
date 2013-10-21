@@ -8,9 +8,15 @@ private:
 	std::string data;
 	Metadata meta;
 
+	const Path filename;
+
+	boost::shared_ptr<TrackGen> track_gen;
+
 public:
 	CueParser(const Path &filename);
-	CueParser(const std::string &data);
+	CueParser(const Path &filename, const std::string &data);
+
+	void parse_lines(const std::vector<std::vector<std::string> > &lines);
 
 	void parse();
 	const Metadata &metadata() const;

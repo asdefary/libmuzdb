@@ -19,6 +19,12 @@ int main(int argc, char **argv)
 				std::cout << "\t" << f->filename() << std::endl;
 				std::cout << "\t" << f->ref_filename() << std::endl;
 
+				BOOST_AUTO(time, f->time());
+
+				std::cout << "\t\t\tstart	:" << time.start	<< std::endl;
+				std::cout << "\t\t\tend		:" << time.end		<< std::endl;
+				std::cout << "\t\t\tduration	:" << time.duration	<< std::endl;
+
 				BOOST_AUTO(fs, f->fields());
 
 				BOOST_FOREACH(BOOST_TYPEOF(*fs.begin()) d, fs) {

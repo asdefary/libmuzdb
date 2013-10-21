@@ -27,6 +27,8 @@ public:
 	void push(const std::pair<std::string, std::string> &field);
 	void push(const std::string &key, const std::string &value);
 
+	void erase(const std::string &key);
+
 	void set(const std::map<std::string, std::string> &fields);
 
 	const Path &filename() const;

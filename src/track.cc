@@ -29,6 +29,11 @@ void MTrack::push(const std::string &key, const std::string &value)
 	flds.insert(std::make_pair(key, value));
 }
 
+void MTrack::erase(const std::string &key)
+{
+	flds.erase(key);
+}
+
 void MTrack::set(const std::map<std::string, std::string> &fields)
 {
 	flds = fields;
