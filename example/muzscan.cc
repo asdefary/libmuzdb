@@ -14,7 +14,11 @@ int main(int argc, char **argv)
 
 	config.extensions.insert(scan_ext.begin(), scan_ext.end());
 
-	mdb->load(argv[1]);
+	try {
+		mdb->load(argv[1]);
+	} catch (...) {
+	}
+
 	mdb->update();
 	mdb->save(argv[1]);
 

@@ -9,7 +9,7 @@ class MDB : public Muzdb {
 private:
 	const Path root_path;
 
-	std::set<std::pair<std::wstring, time_t> > mtimes;
+	std::set<std::pair<Path, time_t> > mtimes;
 	std::map<Path, Metadata> metadata;
 	
 	boost::shared_ptr<MuzdbCallback> mcallback;

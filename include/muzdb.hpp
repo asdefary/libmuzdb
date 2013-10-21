@@ -42,7 +42,7 @@ public:
 	virtual MuzdbConfig &get_config() = 0;
 };
 
-boost::shared_ptr<Muzdb> muzdb_init(const boost::filesystem::path &root);
+boost::shared_ptr<Muzdb> muzdb_init(const boost::filesystem::path &root = Path("."));
 
 } // namespace muzdb
 

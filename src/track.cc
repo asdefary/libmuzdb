@@ -11,7 +11,12 @@ MTrack::MTrack(const Path &path, const Path &ref_path)
 
 void MTrack::set_time(int start, int duration, int end)
 {
-	time_info = (TimeInfo){ start, duration, end };
+	set_time((TimeInfo){ start, duration, end });
+}
+
+void MTrack::set_time(const TimeInfo &ti)
+{
+	time_info = ti;
 }
 
 void MTrack::push(const std::pair<std::string, std::string> &field)
@@ -22,6 +27,11 @@ void MTrack::push(const std::pair<std::string, std::string> &field)
 void MTrack::push(const std::string &key, const std::string &value)
 {
 	flds.insert(std::make_pair(key, value));
+}
+
+void MTrack::set(const std::map<std::string, std::string> &fields)
+{
+	flds = fields;
 }
 
 const Path &MTrack::filename() const

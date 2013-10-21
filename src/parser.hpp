@@ -22,9 +22,12 @@ public:
 	MTrack(const Path &path, const Path &ref_path);
 
 	void set_time(int start, int duration, int end);
+	void set_time(const TimeInfo &ti);
 
 	void push(const std::pair<std::string, std::string> &field);
 	void push(const std::string &key, const std::string &value);
+
+	void set(const std::map<std::string, std::string> &fields);
 
 	const Path &filename() const;
 	const Path &ref_filename() const;

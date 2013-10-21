@@ -2,10 +2,111 @@
 
 #include <boost/filesystem/fstream.hpp>
 
+#include <boost/archive/binary_oarchive.hpp>
+#include <boost/archive/binary_iarchive.hpp>
+
+#include <boost/serialization/set.hpp>
+#include <boost/serialization/map.hpp>
+#include <boost/serialization/string.hpp>
+#include <boost/serialization/vector.hpp>
+#include <boost/serialization/shared_ptr.hpp>
+
 #include "muzdb.hpp"
 #include "parser.hpp"
 
 using namespace boost::filesystem;
+
+namespace boost {
+namespace serialization {
+
+template<class Archive>
+inline void serialize(Archive &ar, muzdb::TimeInfo &t, const unsigned int)
+{
+	ar & t.start;
+	ar & t.duration;
+	ar & t.end;
+}
+
+struct track {
+	path filename;
+	path ref_filename;
+	std::map<std::string, std::string> fields;
+	muzdb::TimeInfo time;
+
+	template<class Archive>
+	inline void serialize(Archive &ar, const unsigned int)
+	{
+		ar & filename;
+		ar & ref_filename;
+		ar & fields;
+		ar & time;
+	}
+};
+
+template<class Archive>
+inline void save(Archive &ar, const path &t, const unsigned int)
+{
+	ar << t.wstring();
+}
+
+template<class Archive>
+inline void load(Archive &ar, path &t, const unsigned int)
+{
+	std::wstring str;
+
+	ar >> str;
+
+	t = str;
+}
+
+template<class Archive>
+inline void serialize(Archive &ar, path &t, const unsigned int file_version)
+{
+	boost::serialization::split_free(ar, t, file_version);
+}
+
+template<class Archive>
+inline void save(Archive &ar, const muzdb::Metadata &t, const unsigned int)
+{
+	std::vector<track> tmp;
+
+	BOOST_FOREACH(BOOST_TYPEOF(*t.begin()) it, t) {
+		tmp.push_back((track) {
+			it->filename(),
+			it->ref_filename(),
+			it->fields(),
+			it->time()
+		});
+	}
+
+	ar << tmp;
+}
+
+template<class Archive>
+inline void load(Archive &ar, muzdb::Metadata &t, const unsigned int)
+{
+	std::vector<track> tmp;
+
+	ar >> tmp;
+	
+	BOOST_FOREACH(track &m, tmp) {
+		BOOST_AUTO(trk, boost::make_shared<muzdb::MTrack>(m.filename, m.ref_filename));
+
+		trk->set(m.fields);
+		trk->set_time(m.time);
+
+		t.push_back(trk);
+	}
+}
+
+template<class Archive>
+inline void serialize(Archive &ar, muzdb::Metadata &t, const unsigned int file_version)
+{
+	boost::serialization::split_free(ar, t, file_version);
+}
+
+} // namespace serialization
+} // namespace boost
 
 namespace muzdb {
 
@@ -41,8 +142,6 @@ const Path &MDB::root() const
 
 void MDB::new_file(const Path &p)
 {
-	std::cout << "NEW_FILE: " << p << std::endl;
-
 	BOOST_AUTO(meta, parse(ParserGen(p)));
 	BOOST_AUTO(file, std::make_pair(p, meta));
 
@@ -55,8 +154,6 @@ void MDB::new_file(const Path &p)
 
 void MDB::del_file(const Path &p)
 {
-	std::cout << "DEL_FILE: " << p << std::endl;
-
 	BOOST_AUTO(file, metadata.find(p));
 
 	if (file == metadata.end()) {
@@ -72,11 +169,9 @@ void MDB::del_file(const Path &p)
 
 void MDB::mod_file(const Path &p)
 {
-	std::cout << "MOD_FILE: " << p << std::endl;
-
 	BOOST_AUTO(meta, parse(ParserGen(p)));
-	BOOST_AUTO(file, std::make_pair(p, meta));
 
+	BOOST_AUTO(file, std::make_pair(p, meta));
 	BOOST_AUTO(prev, metadata.find(p));
 
 	if (prev == metadata.end()) {
@@ -111,7 +206,7 @@ void MDB::update()
 		if (config.extensions.find(p.extension().string()) == config.extensions.end())
 			continue;
 
-		ntimes.insert(std::make_pair(p.wstring(), last_write_time(p)));
+		ntimes.insert(std::make_pair(p, last_write_time(p)));
 	}
 
 	BOOST_AUTO(mit, mtimes.begin());
@@ -149,10 +244,20 @@ void MDB::update()
 
 void MDB::save(const Path &p)
 {
+	ofstream ofs(p, std::ios_base::out | std::ios_base::binary);
+	boost::archive::binary_oarchive oa(ofs);
+
+	oa << mtimes;
+	oa << metadata;
 }
 
 void MDB::load(const Path &p)
 {
+	ifstream ifs(p, std::ios_base::in | std::ios_base::binary);
+	boost::archive::binary_iarchive ia(ifs);
+
+	ia >> mtimes;
+	ia >> metadata;
 }
 
 void MDB::callback(boost::shared_ptr<MuzdbCallback> cb)
