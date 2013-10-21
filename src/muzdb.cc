@@ -59,13 +59,13 @@ struct track {
 template<class Archive>
 inline void save(Archive &ar, const path &t, const unsigned int)
 {
-	ar << t.wstring();
+	ar << t.string();
 }
 
 template<class Archive>
 inline void load(Archive &ar, path &t, const unsigned int)
 {
-	std::wstring str;
+	std::string str;
 
 	ar >> str;
 
