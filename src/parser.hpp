@@ -59,7 +59,5 @@ public:
 
 } // namespace muzdb
 
-#include "avformat.hpp"
-
 #endif /* __MUZDB_PARSER_HPP__ */
 

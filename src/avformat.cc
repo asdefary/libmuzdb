@@ -1,6 +1,9 @@
 #include "common.hpp"
 
 #include "parser.hpp"
+#include "avformat.hpp"
+
+#include "cdetect.hpp"
 
 #include <string>
 #include <map>
@@ -13,7 +16,7 @@ void avformat_get_data(AVFormatContext *ctx, MTrack &trk)
 	AVDictionaryEntry *entry(NULL);
 
 	while (entry = av_dict_get(dict, "", entry, AV_DICT_IGNORE_SUFFIX)) {
-		trk.push(boost::locale::to_lower(entry->key), entry->value);
+		trk.push(boost::locale::to_lower(entry->key), CDetect(entry->value).convert(entry->value));
 	}
 }
 

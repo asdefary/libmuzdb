@@ -3,6 +3,10 @@
 
 #include "common.hpp"
 
+extern "C" {
+#include <libavformat/avformat.h>
+}
+
 namespace muzdb {
 
 class MDB : public Muzdb {

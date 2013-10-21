@@ -13,6 +13,7 @@
 
 #include "muzdb.hpp"
 #include "parser.hpp"
+#include "cdetect.hpp"
 
 using namespace boost::filesystem;
 
@@ -24,6 +25,10 @@ static struct MuzdbInitializer {
 	{
 		av_register_all();
 		std::locale::global(boost::locale::generator()(""));
+	}
+
+	~MuzdbInitializer()
+	{
 	}
 } initalizer;
 

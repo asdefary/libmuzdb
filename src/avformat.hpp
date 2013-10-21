@@ -1,8 +1,6 @@
 #ifndef __MUZDB_AVFORMAT_HPP__
 #define __MUZDB_AVFORMAT_HPP__
 
-#include <boost/static_assert.hpp>
-
 extern "C" {
 #include <libavformat/avformat.h>
 }
