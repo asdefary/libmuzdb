@@ -32,6 +32,16 @@ public:
 	const TimeInfo &time() const;
 };
 
+class ParserGen {
+private:
+	const Path path;
+
+public:
+	ParserGen(const Path &path) : path(path) {}
+
+	std::vector<boost::shared_ptr<Parser> > operator()() const;
+};
+
 class TrackGen {
 private:
 	const MTrack trk;
@@ -41,7 +51,7 @@ public:
 	TrackGen(const Path &filename, const Path &ref_filename)
 		: trk(MTrack(filename, ref_filename)) {}
 
-	boost::shared_ptr<MTrack> operator()();
+	boost::shared_ptr<MTrack> operator()() const;
 };
 
 } // namespace muzdb

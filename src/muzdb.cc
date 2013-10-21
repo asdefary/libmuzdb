@@ -7,6 +7,25 @@ using namespace boost::filesystem;
 
 namespace muzdb {
 
+static Metadata parse(const ParserGen &pg)
+{
+	Metadata meta;
+
+	BOOST_AUTO(ps, pg());
+
+	BOOST_FOREACH(boost::shared_ptr<Parser> par, ps) {
+		try { 
+			par->parse();
+			BOOST_AUTO(res, par->metadata());
+
+			meta.insert(meta.end(), res.begin(), res.end());			
+		} catch (...) {
+		}
+	}
+
+	return meta;
+}
+
 MDB::MDB(const Path &root)
 	: root_path(root)
 {
@@ -21,16 +40,57 @@ const Path &MDB::root() const
 void MDB::new_file(const Path &p)
 {
 	std::cout << "NEW_FILE: " << p << std::endl;
+
+	BOOST_AUTO(meta, parse(ParserGen(p)));
+	BOOST_AUTO(file, std::make_pair(p, meta));
+
+	if (mcallback) {
+		mcallback->new_file(file);
+	}
+
+	metadata.insert(file);
 }
 
 void MDB::del_file(const Path &p)
 {
 	std::cout << "DEL_FILE: " << p << std::endl;
+
+	BOOST_AUTO(file, metadata.find(p));
+
+	if (file == metadata.end()) {
+		return;
+	}
+
+	if (mcallback) {
+		mcallback->del_file(*file);
+	}
+
+	metadata.erase(file);
 }
 
 void MDB::mod_file(const Path &p)
 {
 	std::cout << "MOD_FILE: " << p << std::endl;
+
+	BOOST_AUTO(meta, parse(ParserGen(p)));
+	BOOST_AUTO(file, std::make_pair(p, meta));
+
+	BOOST_AUTO(prev, metadata.find(p));
+
+	if (prev == metadata.end()) {
+		if (mcallback) {
+			mcallback->new_file(file);
+		}
+
+		metadata.insert(file);
+	} else {
+		if (mcallback) {
+			mcallback->mod_file(*prev, file);
+		}
+
+		metadata.erase(prev);
+		metadata.insert(file);
+	}
 }
 
 void MDB::update()
@@ -93,12 +153,12 @@ void MDB::load(const Path &p)
 
 void MDB::callback(boost::shared_ptr<MuzdbCallback> cb)
 {
-	this->cb = cb;
+	this->mcallback = cb;
 }
 
 const std::map<Path, Metadata> &MDB::get() const
 {
-	return meta;
+	return metadata;
 }
 
 MuzdbConfig &MDB::get_config()

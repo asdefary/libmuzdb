@@ -44,7 +44,7 @@ const TimeInfo &MTrack::time() const
 	return time_info;
 }
 
-boost::shared_ptr<MTrack> TrackGen::operator()()
+boost::shared_ptr<MTrack> TrackGen::operator()() const
 {
 	return boost::make_shared<MTrack>(trk);
 }

@@ -10,9 +10,9 @@ private:
 	const Path root_path;
 
 	std::set<std::pair<std::wstring, time_t> > mtimes;
-	std::map<Path, Metadata> meta;
+	std::map<Path, Metadata> metadata;
 	
-	boost::shared_ptr<MuzdbCallback> cb;
+	boost::shared_ptr<MuzdbCallback> mcallback;
 
 	MuzdbConfig config;
 
