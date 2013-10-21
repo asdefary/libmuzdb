@@ -1,5 +1,7 @@
 #include "common.hpp"
 
+#include <boost/filesystem/fstream.hpp>
+
 #include "muzdb.hpp"
 #include "parser.hpp"
 
@@ -14,7 +16,7 @@ static Metadata parse(const ParserGen &pg)
 	BOOST_AUTO(ps, pg());
 
 	BOOST_FOREACH(boost::shared_ptr<Parser> par, ps) {
-		try { 
+		try {
 			par->parse();
 			BOOST_AUTO(res, par->metadata());
 
@@ -141,6 +143,8 @@ void MDB::update()
 			}
 		}
 	}
+
+	mtimes.swap(ntimes);
 }
 
 void MDB::save(const Path &p)

@@ -8,13 +8,15 @@ static std::vector<std::string> scan_ext =
 
 int main(int argc, char **argv)
 {
-	BOOST_AUTO(mdb, muzdb::muzdb_init(argv[1]));
+	BOOST_AUTO(mdb, muzdb::muzdb_init(argv[2]));
 
 	BOOST_AUTO(&config, mdb->get_config());
 
 	config.extensions.insert(scan_ext.begin(), scan_ext.end());
 
+	mdb->load(argv[1]);
 	mdb->update();
+	mdb->save(argv[1]);
 
 	return 0;
 }
