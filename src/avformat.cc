@@ -13,14 +13,17 @@ void avformat_get_data(AVFormatContext *ctx, MTrack &trk)
 	AVDictionaryEntry *entry(NULL);
 
 	while (entry = av_dict_get(dict, "", entry, AV_DICT_IGNORE_SUFFIX)) {
-		trk.push(entry->key, entry->value);
+		BOOST_AUTO(key, std::string(entry->key));
+
+		boost::algorithm::to_lower(key);
+		
+		trk.push(key, entry->value);
 	}
 }
 
 AVParser::AVParser(const Path &filename)
 	: filename(filename)
 {
-
 }
 
 void AVParser::parse()

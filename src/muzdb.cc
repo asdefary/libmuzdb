@@ -202,8 +202,11 @@ void MDB::update()
 		if (!exists(p)) {
 			continue;
 		}
+
+		BOOST_AUTO(ext, p.extension().string());
+		boost::algorithm::to_lower(ext);
 		
-		if (config.extensions.find(p.extension().string()) == config.extensions.end())
+		if (config.extensions.find(ext) == config.extensions.end())
 			continue;
 
 		ntimes.insert(std::make_pair(p, last_write_time(p)));
