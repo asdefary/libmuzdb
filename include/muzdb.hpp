@@ -38,6 +38,7 @@ public:
 	virtual void callback(boost::shared_ptr<MuzdbCallback> cb) = 0;
 
 	virtual const std::map<Path, Metadata> &get() const = 0;
+	virtual const std::map<TrackUID, boost::shared_ptr<const Track> > &tracks() const = 0;
 
 	virtual MuzdbConfig &get_config() = 0;
 };

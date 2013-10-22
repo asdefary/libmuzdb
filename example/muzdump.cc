@@ -10,26 +10,28 @@ int main(int argc, char **argv)
 	try {
 		mdb->load(argv[1]);
 
-		BOOST_AUTO(meta, mdb->get());
+		BOOST_AUTO(tracks, mdb->tracks());
 
-		BOOST_FOREACH(BOOST_TYPEOF(*meta.begin()) m, meta) {
-			std::cout << m.first << std::endl;
+		BOOST_FOREACH(BOOST_TYPEOF(*tracks.begin()) t, tracks) {
+			BOOST_AUTO(track, t.second);
 
-			BOOST_FOREACH(BOOST_TYPEOF(*m.second.begin()) f, m.second) {
-				std::cout << "\t" << f->filename() << std::endl;
-				std::cout << "\t" << f->ref_filename() << std::endl;
+			std::cout << "filename\t:\t" << track->filename() << std::endl;
+			std::cout << "ref_filename\t:\t" << track->ref_filename() << std::endl;
 
-				BOOST_AUTO(time, f->time());
+			BOOST_AUTO(tuid, track->uid());
 
-				std::cout << "\t\t\tstart	:" << time.start	<< std::endl;
-				std::cout << "\t\t\tend		:" << time.end		<< std::endl;
-				std::cout << "\t\t\tduration	:" << time.duration	<< std::endl;
+			std::cout << "\t\tuid 	: " << tuid.u1 << " " << tuid.u2 << std::endl;
 
-				BOOST_AUTO(fs, f->fields());
+			BOOST_AUTO(time, track->time());
 
-				BOOST_FOREACH(BOOST_TYPEOF(*fs.begin()) d, fs) {
-					std::cout << "\t\t" << d.first << "\t:\t" << d.second << std::endl;
-				}
+			std::cout << "\t\tstart	:" << time.start	<< std::endl;
+			std::cout << "\t\tend		:" << time.end		<< std::endl;
+			std::cout << "\t\tduration	:" << time.duration	<< std::endl;
+
+			BOOST_AUTO(fs, track->fields());
+
+			BOOST_FOREACH(BOOST_TYPEOF(*fs.begin()) d, fs) {
+				std::cout << "\t" << d.first << "\t:\t" << d.second << std::endl;
 			}
 
 			std::cout << std::endl;

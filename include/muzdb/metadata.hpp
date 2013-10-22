@@ -16,11 +16,19 @@ struct TimeInfo {
 	int end;
 };
 
+struct TrackUID {
+	int64_t u1;
+	int64_t u2;
+};
+
 class Track {
 public:
 	virtual const boost::filesystem::path &filename() const = 0;
 	virtual const boost::filesystem::path &ref_filename() const = 0;
+
 	virtual const std::map<std::string, std::string> &fields() const = 0;
+
+	virtual const TrackUID &uid() const = 0;
 	virtual const TimeInfo &time() const = 0;
 };
 

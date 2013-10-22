@@ -2,10 +2,28 @@
 
 #include "parser.hpp"
 
+#include <ctime>
+
 namespace muzdb {
 
+static int64_t uid_seed;
+
+void init_uid()
+{
+	uid_seed = time(NULL);
+}
+
+static TrackUID gen_uid()
+{
+	static int value = 0;
+
+	return (TrackUID){ uid_seed, value++ };
+}
+
 MTrack::MTrack(const Path &path, const Path &ref_path)
-	: path(path), ref_path(ref_path)
+	: path(path)
+	, ref_path(ref_path)
+	, muid(gen_uid())
 {
 }
 
@@ -52,6 +70,11 @@ const Path &MTrack::ref_filename() const
 const std::map<std::string, std::string> &MTrack::fields() const
 {
 	return flds;
+}
+
+const TrackUID &MTrack::uid() const
+{
+	return muid;
 }
 
 const TimeInfo &MTrack::time() const
