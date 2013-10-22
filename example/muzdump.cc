@@ -12,6 +12,8 @@ int main(int argc, char **argv)
 
 		BOOST_AUTO(tracks, mdb->tracks());
 
+		std::cout << tracks.size() << " Tracks Loaded" << std::endl;
+
 		BOOST_FOREACH(BOOST_TYPEOF(*tracks.begin()) t, tracks) {
 			BOOST_AUTO(track, t.second);
 
