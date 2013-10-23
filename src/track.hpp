@@ -15,6 +15,7 @@ private:
 
 public:
 	MTrack(const Path &path, const Path &ref_path);
+	MTrack(const Path &path, const Path &ref_path, const TrackUID &tuid);
 
 	void set_time(int start, int duration, int end);
 	void set_time(const TimeInfo &ti);

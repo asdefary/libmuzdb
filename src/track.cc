@@ -27,6 +27,13 @@ MTrack::MTrack(const Path &path, const Path &ref_path)
 {
 }
 
+MTrack::MTrack(const Path &path, const Path &ref_path, const TrackUID &tuid)
+	: path(path)
+	, ref_path(ref_path)
+	, muid(tuid)
+{
+}
+
 void MTrack::set_time(int start, int duration, int end)
 {
 	set_time((TimeInfo){ start, duration, end });

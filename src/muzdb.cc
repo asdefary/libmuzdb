@@ -103,7 +103,7 @@ inline void load(Archive &ar, muzdb::Metadata &t, const unsigned int)
 	ar >> tmp;
 	
 	BOOST_FOREACH(track &m, tmp) {
-		BOOST_AUTO(trk, boost::make_shared<muzdb::MTrack>(m.filename, m.ref_filename));
+		BOOST_AUTO(trk, boost::make_shared<muzdb::MTrack>(m.filename, m.ref_filename, m.tuid));
 
 		trk->set(m.fields);
 		trk->set_time(m.time);
