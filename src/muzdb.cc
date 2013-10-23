@@ -243,10 +243,8 @@ void MDB::mod_file(const Path &p)
 	}
 }
 
-void MDB::update()
+void MDB::insert_directory(const Path &path, BOOST_TYPEOF(mtimes) &ntimes)
 {
-	BOOST_TYPEOF(mtimes) ntimes;
-
 	for (BOOST_AUTO(it, recursive_directory_iterator(root_path, symlink_option::recurse));
 		it != recursive_directory_iterator(); ++it) {
 
@@ -262,6 +260,25 @@ void MDB::update()
 			continue;
 
 		ntimes.insert(std::make_pair(p, last_write_time(p)));
+	}
+
+}
+
+void MDB::insert_file(const Path &path, BOOST_TYPEOF(mtimes) &ntimes)
+{
+	if (exists(path)) {
+		ntimes.insert(std::make_pair(path, last_write_time(path)));
+	}
+}
+
+void MDB::update()
+{
+	BOOST_TYPEOF(mtimes) ntimes;
+
+	if (is_directory(root_path)) {
+		insert_directory(root_path, ntimes);
+	} else {
+		insert_file(root_path, ntimes);
 	}
 
 	BOOST_AUTO(mit, mtimes.begin());

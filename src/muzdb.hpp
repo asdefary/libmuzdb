@@ -28,6 +28,9 @@ private:
 	void new_file(const Path &path);
 	void del_file(const Path &path);
 	void mod_file(const Path &path);
+
+	void insert_directory(const Path &path, BOOST_TYPEOF(mtimes) &ntimes);
+	void insert_file(const Path &path, BOOST_TYPEOF(mtimes) &ntimes);
 	
 public:
 	MDB(const Path &root);
