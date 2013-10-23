@@ -156,15 +156,6 @@ static Metadata parse(const ParserGen &pg)
 	return meta;
 }
 
-static bool operator<(const muzdb::TrackUID &t1, const muzdb::TrackUID &t2)
-{
-	if (t1.u1 != t2.u1) {
-		return (t1.u1 < t2.u1);
-	}
-
-	return (t1.u2 < t2.u2);
-}
-
 MDB::MDB(const Path &root)
 	: root_path(root)
 {

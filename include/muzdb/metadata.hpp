@@ -19,6 +19,15 @@ struct TimeInfo {
 struct TrackUID {
 	int64_t u1;
 	int64_t u2;
+
+	friend bool operator<(const TrackUID &t1, const TrackUID &t2)
+	{
+		if (t1.u1 != t2.u1) {
+			return (t1.u1 < t2.u1);
+		}
+
+		return (t1.u2 < t2.u2);
+	}
 };
 
 class Track {
