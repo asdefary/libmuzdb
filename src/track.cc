@@ -20,6 +20,15 @@ static TrackUID gen_uid()
 	return (TrackUID){ uid_seed, value++ };
 }
 
+MTrack::MTrack(const MTrack &trk)
+	: path(trk.path)
+	, ref_path(trk.ref_path)
+	, flds(trk.flds)
+	, muid(gen_uid())
+	, time_info(trk.time_info)
+{
+}
+
 MTrack::MTrack(const Path &path, const Path &ref_path)
 	: path(path)
 	, ref_path(ref_path)

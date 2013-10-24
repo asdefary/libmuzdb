@@ -14,6 +14,7 @@ private:
 	TimeInfo time_info;
 
 public:
+	MTrack(const MTrack &trk);
 	MTrack(const Path &path, const Path &ref_path);
 	MTrack(const Path &path, const Path &ref_path, const TrackUID &tuid);
 
