@@ -190,14 +190,14 @@ void CueParser::parse_lines(const std::vector<std::vector<std::string> > &lines)
 		start = time.start;
 
 		if (next == tracks.end()) {
-			(*it)->set_time(start, -1, 0);
+			(*it)->set_time(start, 0, -1);
 		} else {
 			BOOST_AUTO(ntime, (*next)->time());
 
 			end = ntime.start;
 			duration = end - start;
 
-			(*it)->set_time(start, end, duration);
+			(*it)->set_time(start, duration, end);
 		}
 	}
 
