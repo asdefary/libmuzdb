@@ -30,6 +30,12 @@ int main(int argc, char **argv)
 			std::cout << "\t\tend		:" << time.end		<< std::endl;
 			std::cout << "\t\tduration	:" << time.duration	<< std::endl;
 
+			BOOST_AUTO(fis, track->file_info());
+
+			BOOST_FOREACH(BOOST_TYPEOF(*fis.begin()) d, fis) {
+				std::cout << "\t" << d.first << "\t:\t" << d.second << std::endl;
+			}
+
 			BOOST_AUTO(fs, track->fields());
 
 			BOOST_FOREACH(BOOST_TYPEOF(*fs.begin()) d, fs) {

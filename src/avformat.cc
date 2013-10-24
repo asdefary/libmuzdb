@@ -48,12 +48,12 @@ void AVParser::parse()
 	BOOST_AUTO(cctx,	stream->codec);
 	BOOST_AUTO(time_base,	stream->time_base);
 
-	trk.push("format",	ctx->iformat->name);
+	trk.push_fin("format",	ctx->iformat->name);
 
-	trk.push("bitrate",		boost::lexical_cast<std::string>(ctx->bit_rate));
-	trk.push("sample_rate",		boost::lexical_cast<std::string>(cctx->sample_rate));
-	trk.push("channels",		boost::lexical_cast<std::string>(cctx->channels));
-	trk.push("bits_per_sample",	boost::lexical_cast<std::string>(cctx->bits_per_raw_sample));
+	trk.push_fin("bitrate",		boost::lexical_cast<std::string>(ctx->bit_rate));
+	trk.push_fin("sample_rate",	boost::lexical_cast<std::string>(cctx->sample_rate));
+	trk.push_fin("channels",		boost::lexical_cast<std::string>(cctx->channels));
+	trk.push_fin("bits_per_sample",	boost::lexical_cast<std::string>(cctx->bits_per_raw_sample));
 
 	trk.set_time(stream->start_time * 1000 * time_base.num / time_base.den,
 		stream->duration * 1000 * time_base.num / time_base.den, -1);

@@ -24,6 +24,7 @@ MTrack::MTrack(const MTrack &trk)
 	: path(trk.path)
 	, ref_path(trk.ref_path)
 	, flds(trk.flds)
+	, fins(trk.fins)
 	, muid(gen_uid())
 	, time_info(trk.time_info)
 {
@@ -63,6 +64,11 @@ void MTrack::push(const std::string &key, const std::string &value)
 	flds.insert(std::make_pair(key, value));
 }
 
+void MTrack::push_fin(const std::string &key, const std::string &value)
+{
+	fins.insert(std::make_pair(key, value));
+}
+
 void MTrack::erase(const std::string &key)
 {
 	flds.erase(key);
@@ -71,6 +77,11 @@ void MTrack::erase(const std::string &key)
 void MTrack::set(const std::map<std::string, std::string> &fields)
 {
 	flds = fields;
+}
+
+void MTrack::set_fin(const std::map<std::string, std::string> finfos)
+{
+	fins = finfos;
 }
 
 const Path &MTrack::filename() const
@@ -86,6 +97,11 @@ const Path &MTrack::ref_filename() const
 const std::map<std::string, std::string> &MTrack::fields() const
 {
 	return flds;
+}
+
+const std::map<std::string, std::string> &MTrack::file_info() const
+{
+	return fins;
 }
 
 const TrackUID &MTrack::uid() const

@@ -152,6 +152,8 @@ void CueParser::parse_lines(const std::vector<std::vector<std::string> > &lines)
 		return;
 	}
 
+	disc->push_fin("format", "cue");
+
 	track_gen = boost::make_shared<TrackGen>(*disc);
 
 	BOOST_AUTO(trk, (*track_gen)());

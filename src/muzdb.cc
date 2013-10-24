@@ -40,6 +40,7 @@ struct track {
 	path ref_filename;
 
 	std::map<std::string, std::string> fields;
+	std::map<std::string, std::string> finfos;
 
 	muzdb::TrackUID tuid;
 	muzdb::TimeInfo time;
@@ -50,6 +51,7 @@ struct track {
 		ar & filename;
 		ar & ref_filename;
 		ar & fields;
+		ar & finfos;
 		ar & tuid;
 		ar & time;
 	}
@@ -87,6 +89,7 @@ inline void save(Archive &ar, const muzdb::Metadata &t, const unsigned int)
 			it->filename(),
 			it->ref_filename(),
 			it->fields(),
+			it->file_info(),
 			it->uid(),
 			it->time()
 		});
@@ -106,6 +109,7 @@ inline void load(Archive &ar, muzdb::Metadata &t, const unsigned int)
 		BOOST_AUTO(trk, boost::make_shared<muzdb::MTrack>(m.filename, m.ref_filename, m.tuid));
 
 		trk->set(m.fields);
+		trk->set_fin(m.finfos);
 		trk->set_time(m.time);
 
 		t.push_back(trk);

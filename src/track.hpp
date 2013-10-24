@@ -9,6 +9,7 @@ private:
 	Path ref_path;
 
 	std::map<std::string, std::string> flds;
+	std::map<std::string, std::string> fins;
 
 	const TrackUID muid;
 	TimeInfo time_info;
@@ -24,14 +25,18 @@ public:
 	void push(const std::pair<std::string, std::string> &field);
 	void push(const std::string &key, const std::string &value);
 
+	void push_fin(const std::string &key, const std::string &value);
+
 	void erase(const std::string &key);
 
 	void set(const std::map<std::string, std::string> &fields);
+	void set_fin(const std::map<std::string, std::string> finfos);
 
 	const Path &filename() const;
 	const Path &ref_filename() const;
 
 	const std::map<std::string, std::string> &fields() const;
+	const std::map<std::string, std::string> &file_info() const;
 	
 	const TrackUID &uid() const;
 	const TimeInfo &time() const;

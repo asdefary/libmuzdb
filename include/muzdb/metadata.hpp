@@ -35,6 +35,7 @@ public:
 	virtual const boost::filesystem::path &filename() const = 0;
 	virtual const boost::filesystem::path &ref_filename() const = 0;
 
+	virtual const std::map<std::string, std::string> &file_info() const = 0;
 	virtual const std::map<std::string, std::string> &fields() const = 0;
 
 	virtual const TrackUID &uid() const = 0;
