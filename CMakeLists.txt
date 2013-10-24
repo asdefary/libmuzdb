@@ -17,7 +17,12 @@ target_link_libraries(muzdb ${AVFORMAT} ${BOOST_FS} ${BOOST_AR} ${BOOST_LC})
 target_link_libraries(muzscan muzdb)
 target_link_libraries(muzdump muzdb)
 
-set_target_properties(muzdb PROPERTIES VERSION "0.1.0")
+set(MUZDB_VERSION_MAJOR "0")
+set(MUZDB_VERSION_MINOR "1.0")
+
+set_target_properties(muzdb PROPERTIES VERSION
+	"${MUZDB_VERSION_MAJOR}.${MUZDB_VERSION_MINOR}")
+set_target_properties(muzdb PROPERTIES SOVERSION ${MUZDB_VERSION_MAJOR})
 
 INSTALL(FILES include/muzdb.hpp
 	DESTINATION include)
