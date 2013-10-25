@@ -107,9 +107,13 @@ void CueParser::parse_lines(const std::vector<std::vector<std::string> > &lines)
 
 	static std::map<std::string, std::string> disc_field_alias
 		= boost::assign::map_list_of
-			("PERFORMER", "performer")
+			("PERFORMER", "album_artist")
 			("SONGWRITER", "composer")
 			("TITLE", "album");
+
+	static std::map<std::string, std::string> track_field_alias
+		= boost::assign::map_list_of
+			("PERFORMER", "artist");
 
 	if (!track_gen) {
 		BOOST_FOREACH(std::vector<std::string> line, lines) {
@@ -176,6 +180,8 @@ void CueParser::parse_lines(const std::vector<std::vector<std::string> > &lines)
 			sscanf(line->at(2).c_str(), "%d:%d:%d", &min, &sec, &frame);
 
 			trk->set_time(min * 60000 + sec * 1000 + frame * 1000 / 75, 0, 0);
+		} else if (track_field_alias.find(line->at(0)) != track_field_alias.end()) {
+			trk->push(track_field_alias.at(line->at(0)), line->at(1));
 		} else {
 			trk->push(boost::locale::to_lower(line->at(0)), line->at(1));
 		}
