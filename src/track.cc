@@ -44,7 +44,7 @@ MTrack::MTrack(const Path &path, const Path &ref_path, const TrackUID &tuid)
 {
 }
 
-void MTrack::set_time(int start, int duration, int end)
+void MTrack::set_time(int64_t start, int64_t duration, int64_t end)
 {
 	set_time((TimeInfo){ start, duration, end });
 }

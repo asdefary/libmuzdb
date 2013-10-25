@@ -19,7 +19,7 @@ public:
 	MTrack(const Path &path, const Path &ref_path);
 	MTrack(const Path &path, const Path &ref_path, const TrackUID &tuid);
 
-	void set_time(int start, int duration, int end);
+	void set_time(int64_t start, int64_t duration, int64_t end);
 	void set_time(const TimeInfo &ti);
 
 	void push(const std::pair<std::string, std::string> &field);

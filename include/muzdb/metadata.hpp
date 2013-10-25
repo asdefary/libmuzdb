@@ -11,9 +11,9 @@
 namespace muzdb {
 
 struct TimeInfo {
-	int start;
-	int duration;
-	int end;
+	int64_t start;
+	int64_t duration;
+	int64_t end;
 };
 
 struct TrackUID {
