@@ -5,6 +5,7 @@ project(muzdb)
 FILE(GLOB SOURCES src/*.cc)
 
 find_library(AVFORMAT avformat)
+find_library(BOOST_SS boost_system)
 find_library(BOOST_FS boost_filesystem)
 find_library(BOOST_AR boost_serialization)
 find_library(BOOST_LC boost_locale)
@@ -13,7 +14,7 @@ add_library(muzdb SHARED ${SOURCES})
 add_executable(muzscan example/muzscan.cc)
 add_executable(muzdump example/muzdump.cc)
 
-target_link_libraries(muzdb ${AVFORMAT} ${BOOST_FS} ${BOOST_AR} ${BOOST_LC})
+target_link_libraries(muzdb ${AVFORMAT} ${BOOST_SS} ${BOOST_FS} ${BOOST_AR} ${BOOST_LC})
 target_link_libraries(muzscan muzdb)
 target_link_libraries(muzdump muzdb)
 
